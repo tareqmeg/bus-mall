@@ -35,7 +35,7 @@ const clickCounter = 25;
 
 function Product ( name ) {
   this.name = name;
-  this.image = `./img/${name}.jpg`;
+  this.image = `../img/${name}.jpg`;
   this.shown = 0;
   this.clicks = 0;
   Product.all.push( this );
@@ -53,6 +53,7 @@ function renderNewProduct() {
   leftImage.src = Product.all[leftIndex].image;
   leftImage.alt = Product.all[leftIndex].name;
   leftImageIndex = Number( leftIndex );
+
 
   let middleIndex;
   do {
@@ -130,8 +131,15 @@ function handelClick( event ) {
 imageSection.addEventListener( 'click', handelClick );
 
 // Helper function
+
 function randomNumber( min, max ) {
-  return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+
+  let theNumber = Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+ 
+  while( theNumber === leftImageIndex || theNumber === middleImageIndex || theNumber === rightImageIndex ){
+    theNumber = Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+  }
+  return theNumber;
 }
 
 renderNewProduct();
