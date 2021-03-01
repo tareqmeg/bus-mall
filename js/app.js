@@ -117,6 +117,7 @@ function handelClick( event ) {
             ulElement.appendChild( liElement );
             liElement.textContent = `${Product.all[i].name}  had  ${Product.all[i].clicks}  votes, and was seen  ${Product.all[i].shown} times.`;
           }
+          renderChart();
 
         } );
       }
@@ -135,7 +136,7 @@ imageSection.addEventListener( 'click', handelClick );
 function randomNumber( min, max ) {
 
   let theNumber = Math.floor( Math.random() * ( max - min + 1 ) ) + min;
- 
+
   while( theNumber === leftImageIndex || theNumber === middleImageIndex || theNumber === rightImageIndex ){
     theNumber = Math.floor( Math.random() * ( max - min + 1 ) ) + min;
   }
@@ -143,3 +144,54 @@ function randomNumber( min, max ) {
 }
 
 renderNewProduct();
+
+function renderChart(){
+  let nameArray = [];
+  let clicksArray = [];
+  let showsArray = [];
+  for( let i = 0; i < Product.all.length; i++ ){
+    nameArray.push( Product.all[i].name );
+    clicksArray.push( Product.all[i].clicks );
+    showsArray.push( Product.all[i].shown );
+  }
+
+
+  let ctx = document.getElementById( 'myChart' ).getContext( '2d' );
+  let myChart = new Chart( ctx, {
+    type: 'bar',
+    data: {
+      labels: nameArray,
+      datasets: [
+        {
+          label: '# of Clicks',
+          data: clicksArray,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)'],
+          borderColor: [
+            'rgba(255, 99, 132, 1)'],
+          borderWidth: 2
+        },
+        {
+          label: '# of shown',
+          data: showsArray,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)' ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)'],
+          borderWidth: 3
+        }
+      ]
+
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  } );
+}
+
