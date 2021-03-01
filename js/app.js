@@ -105,6 +105,9 @@ function handelClick( event ) {
         btn.innerText = 'View Results';
         btn.addEventListener( 'click', function(){
           btn.innerText = 'Reset';
+          btn.onclick = function( ){
+            location.reload();
+          };
           const ulElement = document.createElement( 'ul' );
           parentElement.appendChild( ulElement );
 
