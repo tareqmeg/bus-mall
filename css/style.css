@@ -18,10 +18,14 @@ header h1 {
 }
 
 .image-section{
+  height: fit-content;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
 
+}
+main section img{
+  width: 80%;
 }
 ul {
     -moz-column-count: 4;
