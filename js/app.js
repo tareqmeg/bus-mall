@@ -99,6 +99,7 @@ function handelClick( event ) {
       }
 
       Product.counter++;
+
       if ( Product.counter === clickCounter ){
         const parentElement = document.getElementById( 'result' );
         const btn = document.createElement( 'button' );
@@ -119,12 +120,15 @@ function handelClick( event ) {
           }
           renderChart();
 
+
         } );
       }
       renderNewProduct();
 
       console.log( Product.all );
+
     }
+    imageSection.removeEventListener( 'click', handelClick() );
   }
 }
 
@@ -138,7 +142,7 @@ function randomNumber( min, max ) {
   let theNumber = Math.floor( Math.random() * ( max - min + 1 ) ) + min;
 
   while( theNumber === leftImageIndex || theNumber === middleImageIndex || theNumber === rightImageIndex ){
-    theNumber = Math.floor( Math.random() * ( max - min + 1 ) ) + ( min - 1 );
+    theNumber = Math.floor( Math.random() * ( max - min + 1 ) ) + ( min );
   }
   return theNumber;
 }
