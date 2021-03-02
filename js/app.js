@@ -39,6 +39,7 @@ function Product ( name ) {
   this.shown = 0;
   this.clicks = 0;
   Product.all.push( this );
+  // localStorage.setItem( 'Product', JSON.stringify( Product.all ) );
 }
 
 Product.all = [];
@@ -48,18 +49,19 @@ for( let i = 0; i < productArray.length; i++ ) {
   new Product( productArray[i] );
 }
 
+let previousIndex = [];
 function renderNewProduct() {
   let leftIndex = randomNumber( 0, Product.all.length - 1 ) ;
   leftImage.src = Product.all[leftIndex].image;
   leftImage.alt = Product.all[leftIndex].name;
   leftImageIndex = Number( leftIndex );
-
+  previousIndex.push( leftIndex );
 
   let middleIndex;
   do {
     middleIndex = randomNumber( 0, Product.all.length - 1 );
   } while( leftIndex === middleIndex );
-
+  previousIndex.push( middleIndex );
   middleImage.src = Product.all[middleIndex].image;
   middleImage.alt = Product.all[middleIndex].name;
   middleImageIndex = Number( middleIndex );
@@ -68,7 +70,7 @@ function renderNewProduct() {
   do {
     rightIndex = randomNumber( 0, Product.all.length - 1 );
   } while( rightIndex === leftIndex || rightIndex === middleIndex );
-
+  previousIndex.push( rightIndex );
   rightImage.src = Product.all[rightIndex].image;
   rightImage.alt = Product.all[rightIndex].name;
   rightImageIndex = Number( rightIndex );
@@ -100,6 +102,8 @@ function handelClick( event ) {
 
       Product.counter++;
 
+
+
       if ( Product.counter === clickCounter ){
         const parentElement = document.getElementById( 'result' );
         const btn = document.createElement( 'button' );
@@ -121,16 +125,34 @@ function handelClick( event ) {
           renderChart();
 
 
-        } );
+        }
+        );
       }
       renderNewProduct();
 
       console.log( Product.all );
 
     }
-    imageSection.removeEventListener( 'click', handelClick() );
+
+  }
+  else{
+    imageSection.removeEventListener( 'click', handelClick );
+    localStorage.setItem( 'Product', JSON.stringify( Product.all ) );
+
+
   }
 }
+
+function getData() {
+  const data = localStorage.getItem( 'Product' );
+  if( data ) {
+    const objData = JSON.parse( data );
+    Product.all = objData;
+    renderNewProduct();
+  }
+}
+
+getData();
 
 
 imageSection.addEventListener( 'click', handelClick );
@@ -141,10 +163,11 @@ function randomNumber( min, max ) {
 
   let theNumber = Math.floor( Math.random() * ( max - min + 1 ) ) + min;
 
-  while( theNumber === leftImageIndex || theNumber === middleImageIndex || theNumber === rightImageIndex ){
-    theNumber = Math.floor( Math.random() * ( max - min + 1 ) ) + ( min );
-  }
-  return theNumber;
+  for( let i = 0;i < previousIndex.length;i++ ){
+    if ( theNumber === previousIndex[i] ){
+      theNumber = Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+    }
+  }return( theNumber );
 }
 
 renderNewProduct();
@@ -169,19 +192,17 @@ function renderChart(){
         {
           label: '# of Clicks',
           data: clicksArray,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)'],
-          borderColor: [
-            'rgba(255, 99, 132, 1)'],
+          backgroundColor: 'blue',
+          borderColor:
+            'rgba(255, 99, 132, 1)',
           borderWidth: 2
         },
         {
           label: '# of shown',
           data: showsArray,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)' ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)'],
+          backgroundColor:  'blue' ,
+          borderColor:
+            'rgba(255, 99, 132, 1)',
           borderWidth: 3
         }
       ]
@@ -198,4 +219,7 @@ function renderChart(){
     }
   } );
 }
+
+
+
 
