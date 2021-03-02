@@ -1,26 +1,26 @@
 'use strict';
 
 let productArray = [
-  'bag',
-  'banana',
-  'bathroom',
-  'boots',
-  'breakfast',
-  'bubblegum',
-  'chair',
-  'cthulhu',
-  'dog-duck',
-  'dragon',
-  'pen',
-  'pet-sweep',
-  'scissors',
-  'shark',
-  'sweep',
-  'tauntaun',
-  'unicorn',
-  'usb',
-  'water-can',
-  'wine-glass'
+  'bag.jpg',
+  'banana.jpg',
+  'bathroom.jpg',
+  'boots.jpg',
+  'breakfast.jpg',
+  'bubblegum.jpg',
+  'chair.jpg',
+  'cthulhu.jpg',
+  'dog-duck.jpg',
+  'dragon.jpg',
+  'pen.jpg',
+  'pet-sweep.jpg',
+  'scissors.jpg',
+  'shark.jpg',
+  'sweep.png',
+  'tauntaun.jpg',
+  'unicorn.jpg',
+  'usb.gif',
+  'water-can.jpg',
+  'wine-glass.jpg'
 ];
 
 const imageSection = document.getElementById( 'imageSection' );
@@ -34,8 +34,8 @@ let rightImageIndex = 0;
 const clickCounter = 25;
 
 function Product ( name ) {
-  this.name = name;
-  this.image = `../img/${name}.jpg`;
+  this.name = name.split( '.' ).slice( 0, -1 ).join( '.' );
+  this.image = `./img/${name}`;
   this.shown = 0;
   this.clicks = 0;
   Product.all.push( this );
@@ -49,7 +49,7 @@ for( let i = 0; i < productArray.length; i++ ) {
 }
 
 function renderNewProduct() {
-  let leftIndex = randomNumber( 0, Product.all.length - 1 );
+  let leftIndex = randomNumber( 0, Product.all.length - 1 ) ;
   leftImage.src = Product.all[leftIndex].image;
   leftImage.alt = Product.all[leftIndex].name;
   leftImageIndex = Number( leftIndex );
@@ -138,7 +138,7 @@ function randomNumber( min, max ) {
   let theNumber = Math.floor( Math.random() * ( max - min + 1 ) ) + min;
 
   while( theNumber === leftImageIndex || theNumber === middleImageIndex || theNumber === rightImageIndex ){
-    theNumber = Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+    theNumber = Math.floor( Math.random() * ( max - min + 1 ) ) + ( min - 1 );
   }
   return theNumber;
 }
